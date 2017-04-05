@@ -1,9 +1,10 @@
 {
   "name": "echo.js",
   "version": "1.0.0",
-  "description": "This lib (or demo) does the following things to simulate a chat between a browser and a server:",
+  "description": "To simulate a chat between a browser and a server.",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
