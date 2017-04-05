@@ -1,0 +1,24 @@
+{
+  "name": "echo.js",
+  "version": "1.0.0",
+  "description": "This lib (or demo) does the following things to simulate a chat between a browser and a server:",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/shenfe/echo.js.git"
+  },
+  "author": "sk",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shenfe/echo.js/issues"
+  },
+  "homepage": "https://github.com/shenfe/echo.js#readme",
+  "dependencies": {
+    "binaryjs": "^0.2.1",
+    "express": "^4.15.2",
+    "wav": "^1.0.1"
+  }
+}
