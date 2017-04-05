@@ -19,7 +19,7 @@ This lib (or demo) does the following things to simulate a chat between a browse
 
 Great work from:
 
-1. [RecordRTC](https://github.com/muaz-khan/RecordRTC)
+1. [browser-pcm-stream](https://github.com/gabrielpoca/browser-pcm-stream)
 2. [vad.js](https://github.com/kdavis-mozilla/vad.js)
 
 ## License
