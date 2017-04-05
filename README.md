@@ -13,9 +13,7 @@ This lib (or demo) does the following things to simulate a chat between a browse
 
 ## Start
 
-Execute via Node.js:
-
-  `$ node index.js`
+  `$ npm start`
 
 ## Thanks
 
