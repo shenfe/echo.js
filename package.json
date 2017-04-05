@@ -18,8 +18,12 @@
   },
   "homepage": "https://github.com/shenfe/echo.js#readme",
   "dependencies": {
+    "audio-pcm-format": "^1.1.1",
+    "audio-resampler": "^1.0.1",
     "binaryjs": "^0.2.1",
     "express": "^4.15.2",
-    "wav": "^1.0.1"
+    "sox": "^0.1.0",
+    "wav": "^1.0.1",
+    "webpack": "^2.3.3"
   }
 }
