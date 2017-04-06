@@ -16,11 +16,19 @@ function startUserMedia(stream) {
         source: source,
         voice_stop: function () {
             console.log('voice_stop');
-            recorder.stop();
+            if (recordState === 1) {
+                recorder.stop();
+                console.log('recorder_stop');
+                recordState = 0;
+            }
         },
         voice_start: function () {
             console.log('voice_start');
-            recorder.start();
+            if (!audioState) {
+                recordState = 1;
+                recorder.start();
+                console.log('recorder_start');
+            }
         }
     };
 
@@ -82,12 +90,27 @@ function recordAudio(stream) {
 
 window.wclient = new BinaryClient('ws://127.0.0.1:9001');
 
-function playAudio(url) {
-    var audio = new Audio(url);
-    audio.play();
+var audioQueue = [];
+function playAudio() {
+    if (recordState === 0) {
+        if (!audioQueue.length) return;
+        audioState = true;
+        var audio = new Audio(audioQueue.shift());
+        audio.play();
+        audio.addEventListener('ended', function () {
+            audioState = false;
+            playAudio();
+        });
+    } else {
+        setTimeout(playAudio, 200);
+    }
 }
+
+var audioState = false;
+var recordState = 0; // 0: not recording, 1: recording
 
 var socket = io.connect('http://127.0.0.1:3883');
 socket.on('speech comes', function (data) {
-    playAudio(data.url);
+    audioQueue.push(data.url);
+    playAudio();
 });
