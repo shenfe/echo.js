@@ -13,7 +13,20 @@ This lib (or demo) does the following things to simulate a chat between a browse
 
 ## Start
 
+### Install
+
+  `$ npm install`
+
+### Build
+  `$ webpack`
+
+### Run Server
+
   `$ npm start`
+
+### Test in Browser
+
+Open `127.0.0.1:3883`.
 
 ## Thanks
 
@@ -21,6 +34,8 @@ Great work from:
 
 1. [browser-pcm-stream](https://github.com/gabrielpoca/browser-pcm-stream)
 2. [vad.js](https://github.com/kdavis-mozilla/vad.js)
+3. [socket.io](https://socket.io/)
+4. [binary.js](https://github.com/binaryjs/binaryjs)
 
 ## License
 
