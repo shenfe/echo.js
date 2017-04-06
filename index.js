@@ -1,27 +1,37 @@
 var express = require('express');
 var app = express();
-var port = 3883;
-
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
+server.listen(3883);
 app.use(express.static(__dirname + '/src'));
 app.use(express.static(__dirname + '/records'));
-
 app.get('/', function (req, res) {
     res.redirect('index.html');
 });
 
-var server = app.listen(port, function () {
-    console.log('Listening on port %d', server.address().port);
+var iosocket = null;
+io.on('connection', function (socket) {
+    iosocket = socket;
+    console.log('Connection ' + socket.id + ' accepted');
+    socket.on('disconnect', function () {
+        console.log('Connection ' + socket.id + ' terminated');
+    });
 });
 
-var binaryServer = require('binaryjs').BinaryServer;
-var wav = require('wav');
+var binaryServer = require('binaryjs').BinaryServer({
+    host: '127.0.0.1',
+    port: 9001
+});
 
+var wav = require('wav');
 var sox = require('sox');
 
-var tempDir = './records/tmp/';
-var recordDir = './records/';
+// speech音频文件存放目录
+var tempDir     = './records/tmp/';
+var recordDir   = './records/';
 
-var soxTaskExec = function (fileName) {
+// 将原始speech文件转成指定格式，例如进行重采样
+var soxTaskExec = function (fileName, callback) {
     var job = sox.transcode(tempDir + fileName, recordDir + fileName, {
         sampleRate: 16000,
         format: 'wav',
@@ -61,17 +71,26 @@ var soxTaskExec = function (fileName) {
     });
     job.on('end', function () {
         console.log('complete resampling file ' + fileName);
+        callback(fileName);
     });
     job.start();
 };
 
-var binaryServer = binaryServer({
-    host: '127.0.0.1',
-    port: 9001
-});
+// speech文件已经重采样生成完毕，最终要构造一个新的speech文件回传给client
+var speechFileHander = function (filePath, client) {
+    // var file = fs.createReadStream(filePath);
+    // client.send(file);
 
-var processWavFile = function (fileName) {
-    soxTaskExec(fileName);
+    if (iosocket) {
+        iosocket.emit('speech comes', {url: 'http://127.0.0.1:3883/' + filePath});
+    }
+};
+
+// 原始speech文件已经生成完毕，需要转成指定格式（重采样等）
+var processWavFile = function (fileName, client) {
+    soxTaskExec(fileName, function (resampledFileName) {
+        speechFileHander(resampledFileName, client);
+    });
 };
 
 binaryServer.on('connection', function (client) {
@@ -87,14 +106,16 @@ binaryServer.on('connection', function (client) {
         });
         stream.pipe(fileWriter);
         stream.on('end', function () {
-            fileWriter.end();
-            console.log('file written');
-            processWavFile(fileName);
+            if (fileWriter) {
+                fileWriter.end();
+                console.log('file written');
+                processWavFile(fileName, client);
+            }
         });
     });
 
     client.on('close', function () {
-        if (fileWriter != null) {
+        if (fileWriter) {
             fileWriter.end();
             console.log('file written, client closed');
         }

@@ -81,3 +81,13 @@ function recordAudio(stream) {
 }
 
 window.wclient = new BinaryClient('ws://127.0.0.1:9001');
+
+function playAudio(url) {
+    var audio = new Audio(url);
+    audio.play();
+}
+
+var socket = io.connect('http://127.0.0.1:3883');
+socket.on('speech comes', function (data) {
+    playAudio(data.url);
+});

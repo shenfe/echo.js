@@ -22,6 +22,7 @@
     "audio-resampler": "^1.0.1",
     "binaryjs": "^0.2.1",
     "express": "^4.15.2",
+    "socket.io": "^1.7.3",
     "sox": "^0.1.0",
     "wav": "^1.0.1",
     "webpack": "^2.3.3"
