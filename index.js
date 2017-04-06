@@ -3,6 +3,7 @@ var app = express();
 var port = 3883;
 
 app.use(express.static(__dirname + '/src'));
+app.use(express.static(__dirname + '/records'));
 
 app.get('/', function (req, res) {
     res.redirect('index.html');
