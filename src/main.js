@@ -27,7 +27,7 @@ function startUserMedia(stream) {
             if (!audioState) {
                 recordState = 1;
                 recorder.start();
-                console.log('recorder_start');
+                console.log('recorder_start', Date.now());
             }
         }
     };
@@ -80,11 +80,13 @@ function recordAudio(stream) {
     this.start = function () {
         recording = true;
         window.wstream = window.wclient.createStream();
+        console.log('stream_start', Date.now());
     };
 
     this.stop = function () {
         recording = false;
         window.wstream.end();
+        console.log('stream_end', Date.now());
     };
 }
 
@@ -96,13 +98,15 @@ function playAudio() {
         if (!audioQueue.length) return;
         audioState = true;
         var audio = new Audio(audioQueue.shift());
+        console.log('play_start', Date.now());
         audio.play();
         audio.addEventListener('ended', function () {
             audioState = false;
+            console.log('play_end', Date.now());
             playAudio();
         });
     } else {
-        setTimeout(playAudio, 200);
+        setTimeout(playAudio, 1000);
     }
 }
 

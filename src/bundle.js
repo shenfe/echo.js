@@ -151,7 +151,7 @@ function recordAudio(stream) {
 
     this.start = function () {
         recording = true;
-        window.wstream = window.wclient.createStream();
+        window.wstream.resume();
     };
 
     this.stop = function () {
@@ -161,6 +161,8 @@ function recordAudio(stream) {
 }
 
 window.wclient = new BinaryClient('ws://127.0.0.1:9001');
+window.wstream = window.wclient.createStream();
+window.wstream.pause();
 
 var audioQueue = [];
 function playAudio() {
