@@ -17,10 +17,6 @@ This lib (or demo) does the following things to simulate a chat between a browse
 
   `$ npm install`
 
-### Build
-
-  `$ webpack`
-
 ### Run Server
 
   `$ npm start`
