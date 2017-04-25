@@ -36,4 +36,4 @@ Great work from:
 
 ## License
 
-[MIT](https://github.com/shenfe/echo.js/blob/master/LICENSE)
+[MIT](http://opensource.org/licenses/MIT)
